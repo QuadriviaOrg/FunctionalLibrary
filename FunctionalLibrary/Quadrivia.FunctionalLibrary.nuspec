@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Quadrivia.FunctionalLibrary</id>
+    <version>1.0.0</version>
+    <authors>Richard Pawson</authors>
+    <owners>Quadrivia</owners>
+    <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <tags>.net functional list c# vb</tags>
+    <summary>Library containing implementation of a functional list and supporting functions.</summary>
+    <description>Mimics behaviour of lists and related functions in Haskell.</description>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright 2018</copyright>
+  </metadata>
+    <files>
+      <file src="bin\debug\Quadrivia.FunctionalLibrary.dll" target="lib\net452\Quadrivia.FunctionalLibrary.dll"></file>
+    </files>
+</package>
