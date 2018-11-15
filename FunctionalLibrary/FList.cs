@@ -2,13 +2,10 @@
 {
     public class FList<T>
     {
-        // Creates a new list that is empty
         internal FList()
         {
             Empty = true;
         }
-        // Creates a new list containing value and a reference to tail
-        // Accessed only by FList functions.  Use FList.New in application code
         internal FList(T head, FList<T> tail)
         {
             Empty = false;
@@ -21,10 +18,11 @@
 
         public override string ToString()
         {
-            return Empty ? "" :
-                Tail.Empty ?
-                    Head.ToString() :
-                     Head + ", " + Tail;
+            return Empty ? 
+                    "" 
+                    :Tail.Empty ?
+                        Head.ToString() 
+                        :Head + ", " + Tail;
         }
 
         public override bool Equals(object obj)

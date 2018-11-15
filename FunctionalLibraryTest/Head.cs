@@ -1,4 +1,4 @@
-﻿using FunctionalLibrary;
+﻿using Quadrivia.FunctionalLibrary;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace FunctionalLibraryTest

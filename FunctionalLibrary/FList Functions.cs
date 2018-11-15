@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Quadrivia.FunctionalLibrary
 {
-    // Static class that provides functions relating to FLists
+    // Static class that provides functions that apply to FList<T>
     public static class FList
     {
         #region Constructing lists
@@ -21,9 +21,9 @@ namespace Quadrivia.FunctionalLibrary
         /// </summary>
         public static FList<T> New<T>(T head, FList<T> tail)
         {
-            return head == null?
-                tail
-                :new FList<T>(head, tail);
+            return tail == null || IsEmpty(tail) ?
+                New(head)
+                : new FList<T>(head, tail);
         }
         /// <summary>
         /// Construct a list from a head only
@@ -40,33 +40,49 @@ namespace Quadrivia.FunctionalLibrary
         /// </summary>
         public static FList<T> New<T>(params T[] items)
         {
-            return items.Length == 0 ?
+            return items == null || items.Length == 0 ?
                 Empty<T>()
                 : items.Length == 1 ?
-                    New<T>(items[0]) :
+                    New(items[0]) :
                     New(items[0], New(items.Skip(1).ToArray()));
         }
         #endregion
 
         #region Head, Tail, Init, Last 
 
+        /// <summary>
+        /// Returns true if list is empty.
+        /// </summary>
+        /// <param name="list">Must not be null</param>
         public static bool IsEmpty<T>(FList<T> list)
         {
-            return list.Empty;
+            return list == null ? throw new Exception("Null being passed in place of an FList.") : list.Empty;
         }
 
+        /// <summary>
+        /// Returns number of elements in the list.
+        /// </summary>
+        /// <param name="list">Must not be null</param>
         public static int Length<T>(FList<T> list)
         {
-            return list.Empty ?
+            return IsEmpty(list) ?
                     0
                     : 1 + Length(Tail(list));
         }
 
+        /// <summary>
+        /// Returns the 'head' i.e. the first element in the list
+        /// </summary>
+        /// <param name="list">Must not be null</param>
         public static T Head<T>(FList<T> list)
         {
             return IsEmpty(list) ? throw new EmptyListException() : list.Head;
         }
 
+        /// <summary>
+        /// Returns the 'tail' i.e. the list minus its head
+        /// </summary>
+        /// <param name="list">Must not be null</param>
         public static FList<T> Tail<T>(FList<T> list)
         {
             return IsEmpty(list) ?
@@ -74,6 +90,10 @@ namespace Quadrivia.FunctionalLibrary
                 : list.Tail;
         }
 
+        /// <summary>
+        /// Returns the last element in the list.
+        /// </summary>
+        /// <param name="list">Must not be null</param>
         public static T Last<T>(FList<T> list)
         {
             return Length(list) == 1 ?
@@ -81,22 +101,26 @@ namespace Quadrivia.FunctionalLibrary
                      : Last(Tail(list));
         }
 
-        //Returns the initial part of the list, i.e. all but the tail
+        /// <summary>
+        /// Returns the list except for the last element
+        /// </summary>
+        /// <param name="list">Must not be null</param>
         public static FList<T> Init<T>(FList<T> list)
         {
             return IsEmpty(Tail(list)) ?
                 Empty<T>()
                 : New(Head(list), Init(Tail(list)));
         }
-
-
         #endregion
 
         #region Query methods (don't return a list)
-        //Returne true if the list contains an element equal to the first argument
+        /// <summary>
+        /// Returns true if the list contains an element equal to the first argument
+        /// </summary>
+        /// <param name="list">Must not be null</param>
         public static bool Elem<T>( T elem,  FList<T> list)
         {
-            return list.Empty ?
+            return IsEmpty(list) ?
                 false
                 : list.Head.Equals(elem) ?
                     true
@@ -106,7 +130,7 @@ namespace Quadrivia.FunctionalLibrary
 
         #region Simple functions to 'modify' a list (actually, make a new one)
         /// <summary>
-        /// Adds new item, as the head of a new List
+        /// Returns a new list made from the item as the head and the passed-in list as the tail.
         /// </summary>
         public static FList<T> Prepend<T>(T item, FList<T> list)
         {
@@ -114,11 +138,11 @@ namespace Quadrivia.FunctionalLibrary
         }
 
         /// <summary>
-        /// Adds new item at the end of the list
+        /// Creates a new list based on the old list, with the toAppend list appended to the end.
         /// </summary>
         public static FList<T> Append<T>(FList<T> inputList, FList<T> toAppend)
         {
-            return inputList.Empty ?
+            return IsEmpty(inputList)?
                 toAppend
                 : New(inputList.Head, Append(Tail(inputList), toAppend));
         }
@@ -126,7 +150,7 @@ namespace Quadrivia.FunctionalLibrary
         // Remove first occurrence of item (if any) from list
         public static FList<T> RemoveFirst<T>(T item, FList<T> list)
         {
-            return list.Empty ?
+            return IsEmpty(list)?
                 list
                 : Head(list).Equals(item) ?
                     Tail( list)
