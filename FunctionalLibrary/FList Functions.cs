@@ -240,5 +240,43 @@ namespace Quadrivia.FunctionalLibrary
         }
 
         #endregion
+
+        #region Sorting
+        /// <summary>
+        /// Sorts an FList, using a function that compares any pair of elements
+        /// Uses the Merge Sort algorithm.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="f">Function for comparing elements, returning true if the first should be placed before the second</param>
+        /// <param name="list"></param>
+        /// <returns>A new FList, sorted</returns>
+        public static FList<T> SortBy<T>(Func<T, T, bool> f, FList<T> list)
+        {
+            return Length(list) < 2 ?
+                    list :
+                    Merge(SortBy(f, LeftHalf(list)), SortBy(f, RightHalf(list)), f);
+        }
+
+        private static FList<T> LeftHalf<T>(FList<T> list)
+        {
+            return Drop(FList.Length(list) / 2, list);
+        }
+
+        private static FList<T> RightHalf<T>(FList<T> list)
+        {
+            return Take(Length(list) / 2, list);
+        }
+
+        private static FList<T> Merge<T>(FList<T> a, FList<T> b, Func<T, T, bool> f)
+        {
+            return a.Empty ?
+                b :
+                b.Empty ?
+                    a :
+                    f(a.Head, b.Head) ?
+                        new FList<T>(a.Head, Merge(a.Tail, b, f)) :
+                        new FList<T>(b.Head, Merge(a, b.Tail, f));
+        }
+        #endregion
     }
 }

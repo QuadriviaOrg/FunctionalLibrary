@@ -44,7 +44,7 @@
     <Compile Include="Constructors.cs" />
     <Compile Include="RemoveAll.cs" />
     <Compile Include="Reverse.cs" />
-    <Compile Include="MergeSort.cs" />
+    <Compile Include="Sort.cs" />
     <Compile Include="Tail.cs" />
     <Compile Include="Init.cs" />
     <Compile Include="Last..cs" />
