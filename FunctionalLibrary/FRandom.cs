@@ -2,6 +2,8 @@
 
 namespace Quadrivia.FunctionalLibrary
 {
+    //Acknowledgement: Algorithm copied from https://www.codeproject.com/KB/recipes/SimpleRNG.aspx?display=Print 
+ 
     public class FRandom
     {
         public readonly int Number;
@@ -21,25 +23,60 @@ namespace Quadrivia.FunctionalLibrary
             V = v;
         }
 
+        /// <summary>
+        /// Produces pseudo-random number from two specified non-zero seed values.
+        /// If either value is zero, a default will be used instead.
+        /// </summary>
+        /// <param name="u"></param>
+        /// <param name="v"></param>
+        /// <returns></returns>
         public static FRandom Seed(uint u, uint v)
         {
-            return new FRandom(u, v);
+            return new FRandom(u != 0 ? u: 521288629, v != 0 ? v : 362436069);
         }
-        public static FRandom Seed(DateTime clockNow)
+
+        /// <summary>
+        /// Uses the default values for the seed, so returned FRandom will always be the same
+        /// </summary>
+        /// <returns></returns>
+        public static FRandom SeedDefault()
         {
-            //TODO: shouldn't this be AND rather than shift?
-            return new FRandom((uint)DateTime.Now.Ticks >> 16, 0);
+            return new FRandom(521288629, 362436069);
+        }
+
+        /// <summary>
+        /// Seed the random generator using the system clock
+        /// </summary>
+        /// <param name="clockNow">typically DateTime.Now is passed in</param>
+        /// <returns></returns>
+        public static FRandom SeedFromClock(DateTime clockNow)
+        {
+            return Seed((uint)(clockNow.ToFileTime() >> 16), (uint)(clockNow.ToFileTime() % 4294967296));
         }
 
         public static FRandom Next(FRandom previous, int minValue, int maxValue)
         {
-            var u = previous.U;
-            var v = previous.V;
-            uint u2 = 36969 * (u & 65535) + (u >> 16);
-            uint v2 = 18000 * (v & 65535) + (v >> 16);
-            double r1 = ((u2 << 16) + v2 + 1.0) * 2.328306435454494e-10;
-            int r2 = (int) (minValue + r1 * (maxValue - minValue));
-            return new FRandom(r2, u2, v2);
+            return new FRandom(NextRanged(previous, minValue, maxValue), NewU(previous.U), NewV(previous.V));
+        }
+
+        private static uint NewU(uint u)
+        {
+            return 36969 * (u & 65535) + (u >> 16);
+        }
+
+        private static uint NewV(uint v)
+        {
+            return 18000 * (v & 65535) + (v >> 16);
+        }
+
+        private static double Next(uint oldU, uint oldV)
+        {
+            return ((NewU(oldU) << 16) + NewV(oldV) + 1.0) * 2.328306435454494e-10;
+        }
+
+        private static int NextRanged(FRandom previous, int minValue, int maxValue)
+        {
+            return (int)(minValue + Next(previous.U, previous.V) * (maxValue - minValue));
         }
 
 
