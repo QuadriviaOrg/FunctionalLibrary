@@ -2,17 +2,17 @@
 <package >
   <metadata>
     <id>Quadrivia.FunctionalLibrary</id>
-    <version>1.0.1</version>
+    <version>2.0.0</version>
     <authors>Richard Pawson</authors>
     <owners>Quadrivia</owners>
     <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
     <projectUrl>https://github.com/QuadriviaOrg/FunctionalLibrary</projectUrl> 
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <tags>.net functional list c# vb</tags>
+    <tags>.net functional list random merge sort c# vb</tags>
     <summary>Referencing Quadrivia.FunctionalLibrary, use FList.New to create immutable functional lists in the style of Haskell, then apply static functions such as FList.Head, .Append, .Map to the list(s).</summary>
     <description>.NET library that mimics behaviour of Haskell lists and related functions.</description>
     <copyright>Copyright 2018</copyright>
-    <releaseNotes>1.0.1 updates NuSpec metadata, and better guards against null arguments.</releaseNotes>
+    <releaseNotes>2.0.0 moves and refines the previously undocumented Sort and Random capabilities.</releaseNotes>
   </metadata>
     <files>
       <file src="bin\debug\Quadrivia.FunctionalLibrary.dll" target="lib\net452\Quadrivia.FunctionalLibrary.dll"></file>

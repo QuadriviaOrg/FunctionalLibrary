@@ -3,7 +3,8 @@
 namespace Quadrivia.FunctionalLibrary
 {
     //Acknowledgement: Algorithm copied from https://www.codeproject.com/KB/recipes/SimpleRNG.aspx?display=Print 
- 
+    //which is based on origonal work by George Marsaglia.
+
     public class FRandom
     {
         public readonly int Number;
@@ -16,7 +17,6 @@ namespace Quadrivia.FunctionalLibrary
             V = v;
         }
 
-        //Create Random initialied with an explicit seed
         internal FRandom(uint u, uint v)
         {
             U = u;
@@ -78,8 +78,6 @@ namespace Quadrivia.FunctionalLibrary
         {
             return (int)(minValue + Next(previous.U, previous.V) * (maxValue - minValue));
         }
-
-
     }
 }
 
