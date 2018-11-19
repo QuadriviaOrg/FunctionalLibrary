@@ -1,4 +1,7 @@
 # FunctionalLibrary
+
+Release 2.0 of the NuGet package changes the location, and improves the design of the Sort and Random functionality (previously undocumented)- see below.
+
 Library containing implementation of a functional list and supporting functions, that mimic behaviour of lists and related functions in Haskell. Also, pseudo random number generation, adhering to the 'no side-effects' rules of functional prorgamming.
 
 Install package and add:
