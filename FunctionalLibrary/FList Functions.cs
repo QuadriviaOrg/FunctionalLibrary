@@ -118,7 +118,7 @@ namespace Quadrivia.FunctionalLibrary
         /// Returns true if the list contains an element equal to the first argument
         /// </summary>
         /// <param name="list">Must not be null</param>
-        public static bool Elem<T>( T elem,  FList<T> list)
+        public static bool Elem<T>(T elem, FList<T> list)
         {
             return IsEmpty(list) ?
                 false
@@ -142,7 +142,7 @@ namespace Quadrivia.FunctionalLibrary
         /// </summary>
         public static FList<T> Append<T>(FList<T> inputList, FList<T> toAppend)
         {
-            return IsEmpty(inputList)?
+            return IsEmpty(inputList) ?
                 toAppend
                 : New(inputList.Head, Append(Tail(inputList), toAppend));
         }
@@ -150,10 +150,10 @@ namespace Quadrivia.FunctionalLibrary
         // Remove first occurrence of item (if any) from list
         public static FList<T> RemoveFirst<T>(T item, FList<T> list)
         {
-            return IsEmpty(list)?
+            return IsEmpty(list) ?
                 list
                 : Head(list).Equals(item) ?
-                    Tail( list)
+                    Tail(list)
                     : New(Head(list), FList.RemoveFirst(item, Tail(list)));
         }
 
@@ -169,7 +169,7 @@ namespace Quadrivia.FunctionalLibrary
 
         public static FList<T> Drop<T>(int number, FList<T> list)
         {
-            return number <= 0 || IsEmpty(list)?
+            return number <= 0 || IsEmpty(list) ?
                  list
                  : number == 1 ?
                     Tail(list)
@@ -185,7 +185,7 @@ namespace Quadrivia.FunctionalLibrary
                     : FList.New(Head(list), Take(n - 1, Tail(list)));
         }
 
-        public static FList<T> Reverse<T>( FList<T> list)
+        public static FList<T> Reverse<T>(FList<T> list)
         {
             return IsEmpty(list) ?
                 list
@@ -211,8 +211,8 @@ namespace Quadrivia.FunctionalLibrary
         public static FList<U> Map<T, U>(Func<T, U> f, FList<T> list)
         {
             return IsEmpty(list) ?
-                      Empty<U>()               
-                        :IsEmpty(Tail(list)) ?
+                      Empty<U>()
+                        : IsEmpty(Tail(list)) ?
                         f(list.Head) != null ?
                             New<U>(f(list.Head))
                             : Empty<U>()
@@ -221,7 +221,7 @@ namespace Quadrivia.FunctionalLibrary
                             : Map(f, list.Tail);
         }
 
-        public static T FoldL<T>( Func<T, T, T> f, T start, FList<T> list)
+        public static T FoldL<T>(Func<T, T, T> f, T start, FList<T> list)
         {
             return IsEmpty(list) ?
                 start
@@ -230,7 +230,7 @@ namespace Quadrivia.FunctionalLibrary
                     : FoldL(f, f(start, Last(list)), Init(list));
         }
 
-        public static T FoldR<T>( Func<T, T, T> f, T start, FList<T> list)
+        public static T FoldR<T>(Func<T, T, T> f, T start, FList<T> list)
         {
             return list.Empty ?
                 start
@@ -276,6 +276,21 @@ namespace Quadrivia.FunctionalLibrary
                     f(a.Head, b.Head) ?
                         new FList<T>(a.Head, Merge(a.Tail, b, f)) :
                         new FList<T>(b.Head, Merge(a, b.Tail, f));
+        }
+
+        public static FList<T> Sort<T>(FList<T> list, bool descending = false) where T : IComparable
+        {
+            return descending? SortBy(InverseDefaultCompare, list) : SortBy(DefaultCompare, list);
+        }
+
+        private static bool DefaultCompare<T>(T a, T b) where T : IComparable
+        {
+            return a.CompareTo(b) <= 0;
+        }
+
+        private static bool InverseDefaultCompare<T>(T a, T b) where T : IComparable
+        {
+            return b.CompareTo(a) <= 0;
         }
         #endregion
     }
