@@ -10,3 +10,4 @@
 FunctionalLibrary/NuGet.exe
 Quadrivia.FunctionalLibrary.1.0.1.nupkg
 FunctionalLibrary/NuGet.exe
+*.nupkg

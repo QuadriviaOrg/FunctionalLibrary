@@ -54,6 +54,24 @@ namespace Quadrivia.FunctionalLibrary
             return Seed((uint)(clockNow.ToFileTime() >> 16), (uint)(clockNow.ToFileTime() % 4294967296));
         }
 
+        /// <summary>
+        /// Used for generating a sequence from a single known seed. 
+        /// Skip(0,...) is the same as Next, but Skip(1,...) is the same
+        /// as calling Next twice but having to pass the result of the first
+        /// one into the second.
+        /// </summary>
+        /// <param name="skip">Number of random numbers in sequence to skip</param>
+        /// <param name="previous"></param>
+        /// <param name="minValue"></param>
+        /// <param name="maxValue"></param>
+        /// <returns></returns>
+        public static FRandom Skip(int skip, FRandom previous, int minValue, int maxValue)
+        {
+            return skip <= 0 ?
+                    Next(previous, minValue, maxValue)
+                    : Skip(skip - 1, Next(previous, minValue, maxValue), minValue, maxValue);
+        }
+
         public static FRandom Next(FRandom previous, int minValue, int maxValue)
         {
             return new FRandom(NextRanged(previous, minValue, maxValue), NewU(previous.U), NewV(previous.V));
@@ -78,6 +96,7 @@ namespace Quadrivia.FunctionalLibrary
         {
             return (int)(minValue + Next(previous.U, previous.V) * (maxValue - minValue));
         }
+
     }
 }
 

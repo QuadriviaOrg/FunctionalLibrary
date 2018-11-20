@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Quadrivia.FunctionalLibrary</id>
-    <version>2.0.0</version>
+    <version>2.1.0</version>
     <authors>Richard Pawson</authors>
     <owners>Quadrivia</owners>
     <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
@@ -12,7 +12,7 @@
     <summary>Referencing Quadrivia.FunctionalLibrary, use FList.New to create immutable functional lists in the style of Haskell, then apply static functions such as FList.Head, .Append, .Map to the list(s).</summary>
     <description>.NET library that mimics behaviour of Haskell lists and related functions.</description>
     <copyright>Copyright 2018</copyright>
-    <releaseNotes>2.0.0 moves and refines the previously undocumented Sort and Random capabilities.</releaseNotes>
+    <releaseNotes>2.1 Adds a new Skip function on FRandom</releaseNotes>
   </metadata>
     <files>
       <file src="bin\debug\Quadrivia.FunctionalLibrary.dll" target="lib\net452\Quadrivia.FunctionalLibrary.dll"></file>

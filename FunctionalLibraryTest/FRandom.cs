@@ -9,7 +9,7 @@ namespace FunctionalLibraryTest
     public class RandomNumberTests
     {
         [TestMethod]
-        public void TestSequenceFromSeedDefault()
+        public void Random1()
         {
             var random = FRandom.SeedDefault();
             var sb = new StringBuilder();
@@ -22,7 +22,7 @@ namespace FunctionalLibraryTest
             Assert.AreEqual("5 1 2 2 8 0 2 7 9 0 ", gen1Results);
         }
         [TestMethod]
-        public void TestSequenceFromSeed()
+        public void Random2()
         {
             var random = FRandom.Seed(3, 7);
             var sb = new StringBuilder();
@@ -36,7 +36,7 @@ namespace FunctionalLibraryTest
         }
 
         [TestMethod]
-        public void TestFunctionRepeatability()
+        public void Random3()
         {
             var random = FRandom.SeedDefault();
             Assert.AreEqual(2, FRandom.Next(random, 0, 5).Number);
@@ -45,7 +45,7 @@ namespace FunctionalLibraryTest
         }
 
         [TestMethod] //Very crude test to check that there is an approximately even distribution of 0, 1 results
-        public void TestSeedFromClock()
+        public void RandomSeedFromClock()
         {
             var random = FRandom.SeedFromClock(DateTime.Now);
             int zeros = 0;
@@ -66,6 +66,20 @@ namespace FunctionalLibraryTest
             Assert.AreEqual(1000, zeros + ones);
             Assert.IsTrue(zeros < 550);
             Assert.IsTrue(ones < 550);
+        }
+
+        [TestMethod]
+        public void RandomSkip()
+        {
+            var random = FRandom.SeedDefault();
+            var sb = new StringBuilder();
+            for (int i = 0; i < 10; i++)
+            {
+                var result = FRandom.Skip(i, random, 0, 10);
+                sb.Append(result.Number).Append(" ");
+            }
+            string gen1Results = sb.ToString();
+            Assert.AreEqual("5 1 2 2 8 0 2 7 9 0 ", gen1Results);
         }
     }
 }
