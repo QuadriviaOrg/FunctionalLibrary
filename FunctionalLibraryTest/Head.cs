@@ -25,19 +25,11 @@ namespace FunctionalLibraryTest
         }
 
         [TestMethod]
-        public void Head3()
+        [ExpectedException(typeof(EmptyListException), "EmptyListException NOT thrown")]
+        public void Head3Action()
         {
             var list = FList.Empty<int>();
-            try
-            {
-                var actual = FList.Head(list);
-                Assert.Fail("EmptyListException NOT thrown");
-            }
-            catch (EmptyListException)
-            {
-            }
+            var actual = FList.Head(list);
         }
-
-
     }
 }

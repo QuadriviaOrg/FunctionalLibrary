@@ -33,19 +33,11 @@ namespace FunctionalLibraryTest
         }
 
         [TestMethod]
+        [ExpectedException(typeof(EmptyListException))]
         public void Tail4()
         {
             var list = FList.Empty<int>();
-            try
-            {
-                var actual = FList.Tail(list);
-                Assert.Fail("EmptyListException NOT thrown");
-            }
-            catch (EmptyListException)
-            {
-            }
+            var actual = FList.Tail(list);
         }
-
-
     }
 }
