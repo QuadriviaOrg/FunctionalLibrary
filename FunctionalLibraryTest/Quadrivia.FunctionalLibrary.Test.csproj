@@ -38,6 +38,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="All.cs" />
     <Compile Include="Append.cs" />
     <Compile Include="FoldR.cs" />
     <Compile Include="Elem.cs" />

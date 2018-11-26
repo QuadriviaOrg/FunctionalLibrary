@@ -199,6 +199,11 @@ namespace Quadrivia.FunctionalLibrary
             return !IsEmpty(Filter(f, list));
         }
 
+        public static bool All<T>(Func<T, bool> f, FList<T> list)
+        {
+            return !IsEmpty(list) && Length(Filter(f, list)) == Length(list);
+        }
+
         public static FList<T> Filter<T>(Func<T, bool> func, FList<T> list)
         {
             return list.Empty ?
